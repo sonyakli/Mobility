@@ -1,0 +1,79 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#12201B"><title>Mobility with Seda</title>
+<style>
+:root{--ink:#12201B;--surface:#1A2B24;--line:#2B4137;--chalk:#ECEFE7;--muted:#8FA89B;
+--dim:#5E7669;--signal:#8FCBA5;--calm:#DDBE7E;
+--serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+--sans:Carlito,Poppins,-apple-system,"Helvetica Neue",Arial,sans-serif;
+--mono:"DejaVu Sans Mono",ui-monospace,Menlo,monospace}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--ink);color:var(--chalk);font-family:var(--sans);
+ font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
+.wrap{max-width:660px;margin:0 auto;padding:36px 16px 48px}
+h1{font-family:var(--serif);font-weight:400;font-size:33px;line-height:1.05;margin:0 0 4px}
+.ask{font-size:14px;color:var(--muted);margin:0 0 22px}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tile{display:flex;flex-direction:column;text-decoration:none;color:inherit;
+ background:var(--surface);border:1px solid var(--line);border-radius:16px;
+ padding:15px 14px 13px;min-height:186px}
+.tile .mk{width:44px;height:44px;display:block;margin:0 0 14px}
+.tile .when{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;
+ text-transform:uppercase;color:var(--dim)}
+.tile .what{font-family:var(--serif);font-size:19px;line-height:1.16;margin:4px 0 0;
+ flex:1 1 auto}
+.tile .meta{display:flex;flex-direction:column;gap:1px;border-top:1px solid #24382E;
+ margin-top:12px;padding-top:9px}
+.tile .len{font-family:var(--mono);font-size:12px;color:var(--signal);letter-spacing:.03em}
+.tile .cnt{font-family:var(--mono);font-size:10.5px;color:var(--dim);letter-spacing:.03em}
+
+.tile.build{border-color:#5A6E45;background:#252E1C}
+.tile.build .what{color:var(--calm)}
+.tile.build .len{color:var(--calm)}
+
+.note{margin:22px 0 0;padding:13px 14px;background:var(--surface);border:1px solid var(--line);
+ border-radius:12px;font-size:13px;color:#A9BCAF;line-height:1.5}
+.note b{color:var(--chalk)}
+.foot{margin:20px 0 0;font-size:11.5px;color:var(--dim);line-height:1.6}
+@media(min-width:560px){
+ .wrap{padding-left:22px;padding-right:22px}
+ h1{font-size:38px}
+ .tile{min-height:200px;padding:17px 16px 15px}
+ .tile .what{font-size:21px}
+}
+</style></head><body><div class="wrap">
+<h1>Mobility with Seda</h1>
+<p class="ask">Pick one.</p>
+<div class="grid">
+    <a class="tile" href="shoulders-wheel/">
+      <svg class="mk" viewBox="0 0 44 44" aria-hidden="true"><circle cx='22' cy='22' r='13.5' fill='none' stroke='#8FCBA5' stroke-width='2.6'/><circle cx='22' cy='22' r='4.5' fill='#8FCBA5'/></svg>
+      <div class="when">Sep 4</div>
+      <div class="what">Shoulders, arms &amp; the wheel</div>
+      <div class="meta"><span class="len">30 or 15 min</span><span class="cnt">27 movements</span></div>
+    </a>
+    <a class="tile" href="shoulders-tspine/">
+      <svg class="mk" viewBox="0 0 44 44" aria-hidden="true"><rect x='6' y='10' width='32' height='8' rx='4' fill='none' stroke='#8FCBA5' stroke-width='2.6'/><rect x='6' y='26' width='32' height='8' rx='4' fill='#8FCBA5'/></svg>
+      <div class="when">Aug 27</div>
+      <div class="what">Shoulders &amp; the T-spine</div>
+      <div class="meta"><span class="len">30 or 15 min</span><span class="cnt">25 movements</span></div>
+    </a>
+    <a class="tile" href="daily-practice/">
+      <svg class="mk" viewBox="0 0 44 44" aria-hidden="true"><path d='M5 22 C12 12 32 12 39 22 C32 32 12 32 5 22 Z' fill='none' stroke='#8FCBA5' stroke-width='2.6' stroke-linejoin='round'/><circle cx='22' cy='22' r='4.4' fill='#8FCBA5'/></svg>
+      <div class="when">Aug 21</div>
+      <div class="what">Spine, neck, shoulders &amp; eyes</div>
+      <div class="meta"><span class="len">15 min</span><span class="cnt">14 movements</span></div>
+    </a>
+    <a class="tile build" href="builder/">
+      <svg class="mk" viewBox="0 0 44 44" aria-hidden="true"><circle cx='13' cy='13' r='5' fill='#DDBE7E'/><circle cx='31' cy='13' r='5' fill='none' stroke='#DDBE7E' stroke-width='2.4'/><circle cx='13' cy='31' r='5' fill='none' stroke='#DDBE7E' stroke-width='2.4'/><circle cx='31' cy='31' r='5' fill='#DDBE7E'/></svg>
+      <div class="when">Any day</div>
+      <div class="what">Build your own</div>
+      <div class="meta"><span class="len">Any length</span><span class="cnt">66 to choose from</span></div>
+    </a>
+</div>
+<div class="note"><b>A session you build lives in its own link.</b> Tap <b>Copy link</b> in the
+ builder and the movements and their timings are saved in the address &mdash; bookmark it, or
+ send it to someone.</div>
+<p class="foot">Seda Gunaltay &middot; 21 August &ndash; 4 September 2026<br>
+ Drawings, not photographs, so this can be shared.</p>
+</div></body></html>
