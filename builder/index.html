@@ -201,6 +201,7 @@ function show(i){
   var sp=$("spine").children;
   for(var k=0;k<sp.length;k++) sp[k].className = k<i?"done":(k===i?"now":"");
   fired={};acc=0;t0=performance.now();
+  paused=false; $("pause").textContent="Pause";   // a block always starts running
   $("clock").textContent=fmt(b.d); $("barI").style.width="0%";
   chime(); say(b.n);
 }

@@ -182,6 +182,8 @@ var sp = $("spine").children;
 for (var k = 0; k < sp.length; k++)
 sp[k].className = k < i ? "done" : (k === i ? "now" : "");
 fired = {}; acc = 0; t0 = performance.now();
+paused = false;                       // a block always starts running
+$("pause").textContent = "Pause";
 $("clock").textContent = fmt(b.d);
 $("barI").style.width = "0%";
 chimeOne();
