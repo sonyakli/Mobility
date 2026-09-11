@@ -101,7 +101,8 @@ var loadVoice = function(){
 try {
 var vs = window.speechSynthesis ? speechSynthesis.getVoices() : [];
 if (!vs || !vs.length) return;
-var want = ["Samantha","Karen","Serena","Google UK English Female","Google US English","Daniel","Alex"];
+for (var p = 0; p < vs.length; p++){ if (/premium|enhanced|neural/i.test(vs[p].name) && /^en/i.test(vs[p].lang)) { voice = vs[p]; return; } }
+var want = ["Ava","Nicky","Samantha","Zoe","Karen","Serena","Google UK English Female","Google US English","Daniel","Alex"];
 for (var i = 0; i < want.length; i++){
 for (var j = 0; j < vs.length; j++){ if (vs[j].name === want[i]) { voice = vs[j]; return; } }
 }
@@ -114,7 +115,7 @@ var txt = vq.shift();
 try {
 var u = new SpeechSynthesisUtterance(txt);
 if (voice) u.voice = voice;
-u.rate = 0.97; u.pitch = 1.0;
+u.rate = 0.94; u.pitch = 1.0;
 vbusy = true;
 u.onend = u.onerror = function(){ vbusy = false; vnext(); };
 speechSynthesis.speak(u);
