@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shoulders & T-Spine</title>
+<style>:root{--ink:#12201B;--surface:#1A2B24;--line:#2B4137;--chalk:#ECEFE7;--muted:#8FA89B;--dim:#5E7669;--signal:#8FCBA5;--calm:#DDBE7E;--serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;--mono:"DejaVu Sans Mono",monospace;}*{box-sizing:border-box;}html,body{margin:0;padding:0;background:var(--ink);color:var(--chalk);font-family:"Poppins","Carlito",sans-serif;}h1,h2,.serif{font-family:var(--serif);}.wrap{max-width:640px;margin:0 auto;padding:20px 16px 60px;}.top{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px;}.top h1{font-size:1.5rem;margin:0;color:var(--chalk);}.total{font-family:var(--mono);font-size:1.3rem;color:var(--signal);}.toggles{display:flex;gap:10px;margin:14px 0;flex-wrap:wrap;}.pill{background:var(--surface);border:1px solid var(--line);color:var(--muted);padding:8px 16px;border-radius:20px;cursor:pointer;font-size:.95rem;}.pill.active{background:var(--signal);color:var(--ink);border-color:var(--signal);font-weight:600;}.pill.gym{border-style:dashed;}.gym-note{display:none;background:var(--surface);border-left:3px solid var(--calm);padding:10px 14px;margin:10px 0;font-size:.9rem;color:var(--muted);border-radius:4px;}ul.plan{list-style:none;margin:16px 0;padding:0;border-top:1px solid var(--line);}ul.plan li{display:flex;align-items:baseline;gap:10px;padding:9px 2px;border-bottom:1px solid var(--line);font-size:.95rem;}ul.plan .dur{font-family:var(--mono);color:var(--dim);width:44px;flex:none;}ul.plan .name{flex:1;}.kit{font-size:.72rem;color:var(--calm);border:1px solid var(--calm);border-radius:10px;padding:1px 8px;}.kit.gym{color:var(--muted);border-color:var(--dim);}.begin{display:block;width:100%;background:var(--signal);color:var(--ink);border:none;padding:16px;border-radius:10px;font-size:1.15rem;font-weight:700;cursor:pointer;margin-top:20px;font-family:var(--serif);}.begin:active{opacity:.85;}#runScreen{display:none;}.progress-track{height:5px;background:var(--surface);border-radius:3px;overflow:hidden;margin-bottom:18px;}.progress-fill{height:100%;background:var(--signal);width:0%;transition:width .3s linear;}.run-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;}.gym-badge{display:none;background:var(--calm);color:var(--ink);font-size:.65rem;padding:2px 7px;border-radius:8px;margin-left:8px;vertical-align:middle;}#blockTitle{font-size:1.6rem;margin:0;}#blockTimer{font-family:var(--mono);font-size:2.2rem;color:var(--signal);}.equip-tags{color:var(--calm);font-size:.85rem;margin-bottom:10px;min-height:1em;}ul.steps{list-style:none;padding:0;margin:14px 0;}ul.steps li{padding:8px 0;font-size:1.05rem;color:var(--dim);border-bottom:1px solid var(--line);}ul.steps li.current{color:var(--chalk);font-weight:600;}ul.steps li.dim{opacity:.55;}.correction{font-style:italic;color:var(--calm);font-size:.95rem;margin:14px 0;padding:10px 14px;background:var(--surface);border-radius:6px;border-left:3px solid var(--calm);}.media-wrap{display:flex;gap:10px;margin:16px 0;flex-wrap:wrap;}.media-wrap figure{flex:1;min-width:130px;margin:0;background:var(--surface);border-radius:8px;padding:8px;text-align:center;cursor:zoom-in;}.media-wrap figure svg{width:100%;height:auto;display:block;}.media-wrap figure img{width:100%;height:auto;display:block;border-radius:4px;}.media-wrap figure figcaption{font-size:.8rem;color:var(--muted);margin-top:6px;}.media-wrap figure.enlarged{position:fixed;inset:5%;z-index:50;flex:none;width:90%;display:flex;flex-direction:column;justify-content:center;}.encourage{position:fixed;left:16px;right:16px;bottom:-80px;background:var(--calm);color:var(--ink);padding:12px 16px;border-radius:8px;font-weight:600;transition:bottom .4s ease;max-width:608px;margin:0 auto;}.encourage.show{bottom:20px;}.pause{margin-top:14px;background:transparent;border:1px solid var(--line);color:var(--muted);padding:10px 20px;border-radius:8px;cursor:pointer;}footer.credit{margin-top:30px;font-size:.75rem;color:var(--dim);text-align:center;}</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="homeScreen">
+    <div class="top"><h1>Shoulders &amp; T-Spine — Sep 18</h1><div class="total" id="totalTimer">0:00</div></div>
+    <div class="toggles">
+      <button class="pill active" id="modeFull">Full session</button>
+      <button class="pill" id="modeShort">Short</button>
+      <button class="pill gym" id="gymToggle">At the gym</button>
+    </div>
+    <div class="gym-note" id="gymNote">Adds the standing banded T-spine mobility block — needs a band anchored at chest height on a rack or bar, so this one's for when you're at the gym.</div>
+    <ul class="plan" id="planList"></ul>
+    <button class="begin" id="beginBtn">Begin</button>
+  </div>
+
+  <div id="runScreen">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="run-head">
+      <h2 id="blockTitle">—<span class="gym-badge" id="gymBadge">gym</span></h2>
+      <div id="blockTimer">0:00</div>
+    </div>
+    <div class="equip-tags" id="equipTags"></div>
+    <div class="media-wrap" id="mediaWrap"></div>
+    <ul class="steps" id="stepsList"></ul>
+    <div class="correction" id="correctionLine" style="display:none"></div>
+    <button class="pause" id="pauseBtn">Pause</button>
+    <div class="total" style="margin-top:14px;font-size:1rem;">Total remaining: <span id="totalTimerRun"></span></div>
+  </div>
+
+  <div class="encourage" id="encourageBanner"></div>
+  <footer class="credit">Built from the Sep 18, 2026 session with Seda &middot; drawings version — publishable</footer>
+</div>
+<script>var BLOCKS = [{"id":"box_breathing","title":"Box Breathing","lines":["Sit tall, shoulders back, heart open.","Close your eyes. Find the spot where your head balances over your shoulders with the least effort \u2014 that's neutral.","Inhale for 4, hold for 4, exhale for 4, hold for 4. Keep going for several rounds.","Let the breath settle back to normal before you open your eyes."],"correction":null,"equip":[],"gymOnly":false,"full":150,"short":60,"media":[{"html":"<svg viewBox=\"0 0 200 190\"><line x1=\"15\" y1=\"175\" x2=\"185\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"2\" opacity=\"0.5\"/><line x1=\"100\" y1=\"160\" x2=\"70\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"130\" y2=\"175\" stroke=\"#ECEFE7\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"100\" y2=\"95\" stroke=\"#ECEFE7\" stroke-width=\"13\" stroke-linecap=\"round\"/><circle cx=\"100\" cy=\"70\" r=\"13\" fill=\"#ECEFE7\"/><circle cx=\"100\" cy=\"66\" r=\"13\" fill=\"none\" stroke=\"#ECEFE7\" stroke-width=\"1.5\" stroke-dasharray=\"3 3\" opacity=\"0.6\"/><line x1=\"100\" y1=\"54\" x2=\"100\" y2=\"50\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\"/><polyline points=\"103,55 100,50 97,55\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>","caption":"Inhale"}]},{"id":"neck_ap","title":"Neck Glides \u2014 Forward and Back","lines":["Sit tall, chin parallel to the floor.","Push your chin forward, then glide it back.","Keep your shoulders still \u2014 only the neck moves.","10 reps."],"correction":null,"equip":[],"gymOnly":false,"full":35,"short":25,"media":[{"html":"<svg viewBox=\"0 0 200 190\"><line x1=\"15\" y1=\"175\" x2=\"185\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"2\" opacity=\"0.5\"/><line x1=\"100\" y1=\"160\" x2=\"70\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"130\" y2=\"175\" stroke=\"#ECEFE7\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"100\" y2=\"95\" stroke=\"#ECEFE7\" stroke-width=\"13\" stroke-linecap=\"round\"/><circle cx=\"92\" cy=\"70\" r=\"13\" fill=\"#ECEFE7\"/><circle cx=\"108\" cy=\"70\" r=\"13\" fill=\"none\" stroke=\"#ECEFE7\" stroke-width=\"1.5\" stroke-dasharray=\"3 3\" opacity=\"0.6\"/><line x1=\"92\" y1=\"54\" x2=\"108\" y2=\"54\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\"/><polyline points=\"103,57 108,54 103,51\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>","caption":"Chin forward"}]},{"id":"neck_side","title":"Neck Glides \u2014 Side to Side","lines":["Sit tall, chin parallel to the floor.","Push your head from one side to the other, gliding \u2014 not tilting.","Use your hand against your jaw as a reference point.","The bottom half of you stays completely still; only the neck travels.","10 reps."],"correction":"\"The bottom part stays steady and the neck is moving.\"","equip":[],"gymOnly":false,"full":35,"short":0,"media":[{"html":"<svg viewBox=\"0 0 200 190\"><line x1=\"15\" y1=\"175\" x2=\"185\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"2\" opacity=\"0.5\"/><line x1=\"100\" y1=\"160\" x2=\"70\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"130\" y2=\"175\" stroke=\"#ECEFE7\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"100\" y2=\"95\" stroke=\"#ECEFE7\" stroke-width=\"13\" stroke-linecap=\"round\"/><circle cx=\"90\" cy=\"70\" r=\"13\" fill=\"#ECEFE7\"/><circle cx=\"110\" cy=\"70\" r=\"13\" fill=\"none\" stroke=\"#ECEFE7\" stroke-width=\"1.5\" stroke-dasharray=\"3 3\" opacity=\"0.6\"/><line x1=\"90\" y1=\"54\" x2=\"110\" y2=\"54\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\"/><polyline points=\"105,57 110,54 105,51\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>","caption":"Glide side to side"}]},{"id":"neck_rot","title":"Neck Rotations","lines":["Sit tall, shoulders down and back (depression).","Glide the head back first, then drop the chin and rotate it toward one shoulder.","Come back to center, glide back again, then rotate to the other shoulder.","Keep alternating sides."],"correction":"\"Remember to glide the chin back before you do the head-forward posture.\"","equip":[],"gymOnly":false,"full":40,"short":0,"media":[{"html":"<svg viewBox=\"0 0 200 190\"><line x1=\"15\" y1=\"175\" x2=\"185\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"2\" opacity=\"0.5\"/><line x1=\"100\" y1=\"160\" x2=\"70\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"130\" y2=\"175\" stroke=\"#ECEFE7\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"100\" y2=\"95\" stroke=\"#ECEFE7\" stroke-width=\"13\" stroke-linecap=\"round\"/><circle cx=\"90\" cy=\"74\" r=\"13\" fill=\"#ECEFE7\"/><circle cx=\"110\" cy=\"74\" r=\"13\" fill=\"none\" stroke=\"#ECEFE7\" stroke-width=\"1.5\" stroke-dasharray=\"3 3\" opacity=\"0.6\"/><line x1=\"90\" y1=\"58\" x2=\"110\" y2=\"58\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\"/><polyline points=\"105,61 110,58 105,55\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>","caption":"Rotate to shoulder"}]},{"id":"jaw","title":"Jaw Forward and Back","lines":["Come back to center, chin parallel to the floor.","Only the jaw moves \u2014 push it forward, then pull it back with real effort (retraction).","The head stays completely still throughout.","10 reps."],"correction":"\"Don't move the head though \u2014 only the jaw moves.\"","equip":[],"gymOnly":false,"full":35,"short":25,"media":[{"html":"<svg viewBox=\"0 0 200 190\"><line x1=\"15\" y1=\"175\" x2=\"185\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"2\" opacity=\"0.5\"/><line x1=\"100\" y1=\"160\" x2=\"70\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"130\" y2=\"175\" stroke=\"#ECEFE7\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"100\" y2=\"95\" stroke=\"#ECEFE7\" stroke-width=\"13\" stroke-linecap=\"round\"/><circle cx=\"94\" cy=\"70\" r=\"13\" fill=\"#ECEFE7\"/><circle cx=\"106\" cy=\"70\" r=\"13\" fill=\"none\" stroke=\"#ECEFE7\" stroke-width=\"1.5\" stroke-dasharray=\"3 3\" opacity=\"0.6\"/><line x1=\"94\" y1=\"54\" x2=\"106\" y2=\"54\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\"/><polyline points=\"101,57 106,54 101,51\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>","caption":"Jaw forward"}]},{"id":"tongue","title":"Tongue Circles","lines":["Come back to center.","Trace a circle with your tongue along the top of your teeth.","10 circles one way, then 10 the other way."],"correction":null,"equip":[],"gymOnly":false,"full":50,"short":0,"media":[{"html":"<svg viewBox=\"0 0 200 190\"><line x1=\"15\" y1=\"175\" x2=\"185\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"2\" opacity=\"0.5\"/><line x1=\"100\" y1=\"160\" x2=\"70\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"130\" y2=\"175\" stroke=\"#ECEFE7\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"100\" y2=\"95\" stroke=\"#ECEFE7\" stroke-width=\"13\" stroke-linecap=\"round\"/><circle cx=\"100\" cy=\"67\" r=\"13\" fill=\"#ECEFE7\"/><circle cx=\"100\" cy=\"73\" r=\"13\" fill=\"none\" stroke=\"#ECEFE7\" stroke-width=\"1.5\" stroke-dasharray=\"3 3\" opacity=\"0.6\"/><line x1=\"100\" y1=\"51\" x2=\"100\" y2=\"57\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\"/><polyline points=\"97,52 100,57 103,52\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>","caption":"Circle one way"}]},{"id":"shoulder_warmup","title":"Shoulder Warm-Up","lines":["Standing or seated, arms reach up and over \u2014 inhale as they rise, lower as you exhale.","Add external rotation: elevate the arms, then lower.","Come to cactus arms \u2014 elbows in, then open.","Keep your head in the same line the whole time; don't let it drift forward."],"correction":"\"Make sure your head stays in the same line \u2014 otherwise the neck wants to go forward. Keep it gliding back.\"","equip":[],"gymOnly":false,"full":90,"short":60,"media":[{"html":"<svg viewBox=\"0 0 200 190\"><line x1=\"15\" y1=\"175\" x2=\"185\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"2\" opacity=\"0.5\"/><line x1=\"100\" y1=\"160\" x2=\"70\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"130\" y2=\"175\" stroke=\"#ECEFE7\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"100\" y2=\"95\" stroke=\"#ECEFE7\" stroke-width=\"13\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"95\" x2=\"52\" y2=\"68\" stroke=\"#5E7669\" stroke-width=\"6\" stroke-linecap=\"round\" opacity=\"1\"/><line x1=\"100\" y1=\"95\" x2=\"148\" y2=\"68\" stroke=\"#ECEFE7\" stroke-width=\"6\" stroke-linecap=\"round\" opacity=\"1\"/><line x1=\"100\" y1=\"95\" x2=\"128\" y2=\"47\" stroke=\"#ECEFE7\" stroke-width=\"2\" stroke-linecap=\"round\" opacity=\"0.5\" stroke-dasharray=\"4 4\"/><line x1=\"100\" y1=\"95\" x2=\"73\" y2=\"47\" stroke=\"#ECEFE7\" stroke-width=\"2\" stroke-linecap=\"round\" opacity=\"0.5\" stroke-dasharray=\"4 4\"/><circle cx=\"100\" cy=\"70\" r=\"13\" fill=\"#ECEFE7\"/><line x1=\"148\" y1=\"68\" x2=\"73\" y2=\"47\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\"/><polyline points=\"78,46 73,47 77,52\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>","caption":"Arms up and over"}]},{"id":"behind_head_switch","title":"External Rotation Switch","lines":["One hand goes behind the head, the other stays low, elbows out to the sides.","Switch which hand is on top, one to five.","Head stays glided back the whole time.","Release and shake it out."],"correction":"\"Head back\" \u2014 repeated on every switch.","equip":[],"gymOnly":false,"full":45,"short":0,"media":[{"html":"<svg viewBox=\"0 0 200 190\"><line x1=\"15\" y1=\"175\" x2=\"185\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"2\" opacity=\"0.5\"/><line x1=\"100\" y1=\"160\" x2=\"70\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"130\" y2=\"175\" stroke=\"#ECEFE7\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"100\" y2=\"95\" stroke=\"#ECEFE7\" stroke-width=\"13\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"95\" x2=\"62\" y2=\"63\" stroke=\"#5E7669\" stroke-width=\"6\" stroke-linecap=\"round\" opacity=\"1\"/><line x1=\"100\" y1=\"95\" x2=\"83\" y2=\"48\" stroke=\"#ECEFE7\" stroke-width=\"6\" stroke-linecap=\"round\" opacity=\"1\"/><line x1=\"100\" y1=\"95\" x2=\"83\" y2=\"48\" stroke=\"#ECEFE7\" stroke-width=\"2\" stroke-linecap=\"round\" opacity=\"0.5\" stroke-dasharray=\"4 4\"/><line x1=\"100\" y1=\"95\" x2=\"62\" y2=\"63\" stroke=\"#ECEFE7\" stroke-width=\"2\" stroke-linecap=\"round\" opacity=\"0.5\" stroke-dasharray=\"4 4\"/><circle cx=\"100\" cy=\"70\" r=\"13\" fill=\"#ECEFE7\"/><line x1=\"83\" y1=\"48\" x2=\"62\" y2=\"63\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\"/><polyline points=\"64,57 62,63 68,62\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>","caption":"Hand behind head"}]},{"id":"nerve_floss_r","title":"Nerve Floss \u2014 Right Arm","lines":["Right arm out to the side, then internally rotate and bend the elbow so the hand rests behind your sacrum (low back).","Tilt your head to the left shoulder, glide the chin back, then rotate the chin toward the left shoulder.","\"Chicken head\": from there, glide the head forward and back \u2014 that's one rep. 10 reps.","Left hand can rest on the right shoulder to help hold the shoulder blade down."],"correction":"\"We don't want the sensation to be higher than 3 to 5 \u2014 always keep that in mind.\" (Her general nerve-floss safety rule \u2014 applies to both sides.)","equip":[],"gymOnly":false,"full":50,"short":40,"media":[{"html":"<svg viewBox=\"0 0 200 190\"><line x1=\"15\" y1=\"175\" x2=\"185\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"2\" opacity=\"0.5\"/><line x1=\"100\" y1=\"160\" x2=\"70\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"130\" y2=\"175\" stroke=\"#ECEFE7\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"100\" y2=\"95\" stroke=\"#ECEFE7\" stroke-width=\"13\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"95\" x2=\"62\" y2=\"109\" stroke=\"#5E7669\" stroke-width=\"6\" stroke-linecap=\"round\" opacity=\"1\"/><line x1=\"100\" y1=\"95\" x2=\"122\" y2=\"56\" stroke=\"#ECEFE7\" stroke-width=\"6\" stroke-linecap=\"round\" opacity=\"1\"/><line x1=\"100\" y1=\"95\" x2=\"69\" y2=\"121\" stroke=\"#ECEFE7\" stroke-width=\"2\" stroke-linecap=\"round\" opacity=\"0.5\" stroke-dasharray=\"4 4\"/><line x1=\"100\" y1=\"95\" x2=\"122\" y2=\"56\" stroke=\"#ECEFE7\" stroke-width=\"2\" stroke-linecap=\"round\" opacity=\"0.5\" stroke-dasharray=\"4 4\"/><circle cx=\"100\" cy=\"70\" r=\"13\" fill=\"#ECEFE7\"/><line x1=\"122\" y1=\"56\" x2=\"122\" y2=\"56\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\"/><polyline points=\"117,59 122,56 117,53\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>","caption":"Arm back, chicken head"}]},{"id":"nerve_floss_l","title":"Nerve Floss \u2014 Left Arm","lines":["Same setup, other side: left arm out, internally rotate, hand behind the sacrum.","Tilt the head to the right shoulder, glide back, rotate chin to the right shoulder.","Chicken head glides forward and back, 10 reps.","Release and shake it out."],"correction":"Same rule: keep the nerve-floss sensation in the 3\u20135 range, not higher.","equip":[],"gymOnly":false,"full":50,"short":40,"media":[{"html":"<svg viewBox=\"0 0 200 190\"><line x1=\"15\" y1=\"175\" x2=\"185\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"2\" opacity=\"0.5\"/><line x1=\"100\" y1=\"160\" x2=\"70\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"130\" y2=\"175\" stroke=\"#ECEFE7\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"100\" y2=\"95\" stroke=\"#ECEFE7\" stroke-width=\"13\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"95\" x2=\"78\" y2=\"56\" stroke=\"#5E7669\" stroke-width=\"6\" stroke-linecap=\"round\" opacity=\"1\"/><line x1=\"100\" y1=\"95\" x2=\"138\" y2=\"109\" stroke=\"#ECEFE7\" stroke-width=\"6\" stroke-linecap=\"round\" opacity=\"1\"/><line x1=\"100\" y1=\"95\" x2=\"92\" y2=\"51\" stroke=\"#ECEFE7\" stroke-width=\"2\" stroke-linecap=\"round\" opacity=\"0.5\" stroke-dasharray=\"4 4\"/><line x1=\"100\" y1=\"95\" x2=\"138\" y2=\"109\" stroke=\"#ECEFE7\" stroke-width=\"2\" stroke-linecap=\"round\" opacity=\"0.5\" stroke-dasharray=\"4 4\"/><circle cx=\"100\" cy=\"70\" r=\"13\" fill=\"#ECEFE7\"/><line x1=\"138\" y1=\"109\" x2=\"138\" y2=\"109\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\"/><polyline points=\"132,112 138,109 132,106\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>","caption":"Arm back, chicken head"}]},{"id":"interlace_hands","title":"Interlace and Lift","lines":["Interlace your hands behind your back.","Draw the shoulder blades together.","Glide the head back first, then lift the head up and back.","Slowly release."],"correction":"\"Glide the head back first, then lift up.\"","equip":[],"gymOnly":false,"full":35,"short":0,"media":[{"html":"<svg viewBox=\"0 0 200 190\"><line x1=\"15\" y1=\"175\" x2=\"185\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"2\" opacity=\"0.5\"/><line x1=\"100\" y1=\"160\" x2=\"70\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"130\" y2=\"175\" stroke=\"#ECEFE7\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"100\" y2=\"95\" stroke=\"#ECEFE7\" stroke-width=\"13\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"95\" x2=\"67\" y2=\"107\" stroke=\"#5E7669\" stroke-width=\"6\" stroke-linecap=\"round\" opacity=\"1\"/><line x1=\"100\" y1=\"95\" x2=\"133\" y2=\"107\" stroke=\"#ECEFE7\" stroke-width=\"6\" stroke-linecap=\"round\" opacity=\"1\"/><line x1=\"100\" y1=\"95\" x2=\"66\" y2=\"101\" stroke=\"#ECEFE7\" stroke-width=\"2\" stroke-linecap=\"round\" opacity=\"0.5\" stroke-dasharray=\"4 4\"/><line x1=\"100\" y1=\"95\" x2=\"134\" y2=\"101\" stroke=\"#ECEFE7\" stroke-width=\"2\" stroke-linecap=\"round\" opacity=\"0.5\" stroke-dasharray=\"4 4\"/><circle cx=\"100\" cy=\"70\" r=\"13\" fill=\"#ECEFE7\"/><line x1=\"133\" y1=\"107\" x2=\"134\" y2=\"101\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\"/><polyline points=\"136,107 134,101 130,105\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>","caption":"Interlace and lift"}]},{"id":"band_pro_retro","title":"Band Shoulder Flosses","lines":["Hold the band with the pinky-finger side of your hands turned in, enough tension to feel it.","Pull your hands up, shoulders forward, and hold that tension.","Move your shoulder blades apart (protraction) and together (retraction) \u2014 the shoulders do the work, the head stays still.","Keep going, controlled."],"correction":"\"Keep your elbows straight.\"","equip":["band"],"gymOnly":false,"full":60,"short":0,"media":[{"html":"<svg viewBox=\"0 0 200 190\"><line x1=\"15\" y1=\"175\" x2=\"185\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"2\" opacity=\"0.5\"/><line x1=\"100\" y1=\"160\" x2=\"70\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"130\" y2=\"175\" stroke=\"#ECEFE7\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"100\" y2=\"95\" stroke=\"#ECEFE7\" stroke-width=\"13\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"95\" x2=\"57\" y2=\"70\" stroke=\"#5E7669\" stroke-width=\"6\" stroke-linecap=\"round\" opacity=\"1\"/><line x1=\"100\" y1=\"95\" x2=\"143\" y2=\"70\" stroke=\"#ECEFE7\" stroke-width=\"6\" stroke-linecap=\"round\" opacity=\"1\"/><line x1=\"100\" y1=\"95\" x2=\"51\" y2=\"86\" stroke=\"#ECEFE7\" stroke-width=\"2\" stroke-linecap=\"round\" opacity=\"0.5\" stroke-dasharray=\"4 4\"/><line x1=\"100\" y1=\"95\" x2=\"149\" y2=\"86\" stroke=\"#ECEFE7\" stroke-width=\"2\" stroke-linecap=\"round\" opacity=\"0.5\" stroke-dasharray=\"4 4\"/><path d=\"M 57 70 Q 100 130 143 70\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"2.5\"/><circle cx=\"100\" cy=\"70\" r=\"13\" fill=\"#ECEFE7\"/><line x1=\"143\" y1=\"70\" x2=\"149\" y2=\"86\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\"/><polyline points=\"145,82 149,86 150,80\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>","caption":"Protraction / retraction"}]},{"id":"band_elev_depress","title":"Band Elevate and Depress","lines":["Hold the band overhead, hands about shoulder-width (open it further if you need to).","Lift the shoulders up toward your ears (elevate), then press them down (depress).","Keep tension in the band the whole time."],"correction":"\"Keep the tension in the band.\"","equip":["band"],"gymOnly":false,"full":60,"short":0,"media":[{"html":"<svg viewBox=\"0 0 200 190\"><line x1=\"15\" y1=\"175\" x2=\"185\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"2\" opacity=\"0.5\"/><line x1=\"100\" y1=\"160\" x2=\"70\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"130\" y2=\"175\" stroke=\"#ECEFE7\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"100\" y2=\"95\" stroke=\"#ECEFE7\" stroke-width=\"13\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"95\" x2=\"91\" y2=\"46\" stroke=\"#5E7669\" stroke-width=\"6\" stroke-linecap=\"round\" opacity=\"1\"/><line x1=\"100\" y1=\"95\" x2=\"109\" y2=\"46\" stroke=\"#ECEFE7\" stroke-width=\"6\" stroke-linecap=\"round\" opacity=\"1\"/><line x1=\"100\" y1=\"95\" x2=\"83\" y2=\"48\" stroke=\"#ECEFE7\" stroke-width=\"2\" stroke-linecap=\"round\" opacity=\"0.5\" stroke-dasharray=\"4 4\"/><line x1=\"100\" y1=\"95\" x2=\"117\" y2=\"48\" stroke=\"#ECEFE7\" stroke-width=\"2\" stroke-linecap=\"round\" opacity=\"0.5\" stroke-dasharray=\"4 4\"/><path d=\"M 91 46 Q 100 130 109 46\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"2.5\"/><circle cx=\"100\" cy=\"70\" r=\"13\" fill=\"#ECEFE7\"/><line x1=\"109\" y1=\"46\" x2=\"117\" y2=\"48\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\"/><polyline points=\"111,50 117,48 113,44\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>","caption":"Elevate / depress"}]},{"id":"band_ctrl_retract","title":"Band Controlled Retraction","lines":["Hold the band out in front, arms almost parallel to the ground, elbows straight.","Let the band pull your shoulder blades together, then move them apart again.","Control the movement both ways \u2014 don't let the band snap you back."],"correction":"\"Don't let the band pull you too much \u2014 control the retraction of the shoulder blades.\"","equip":["band"],"gymOnly":false,"full":60,"short":60,"media":[{"html":"<svg viewBox=\"0 0 200 190\"><line x1=\"15\" y1=\"175\" x2=\"185\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"2\" opacity=\"0.5\"/><line x1=\"100\" y1=\"160\" x2=\"70\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"130\" y2=\"175\" stroke=\"#ECEFE7\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"100\" y2=\"95\" stroke=\"#ECEFE7\" stroke-width=\"13\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"95\" x2=\"48\" y2=\"76\" stroke=\"#5E7669\" stroke-width=\"6\" stroke-linecap=\"round\" opacity=\"1\"/><line x1=\"100\" y1=\"95\" x2=\"152\" y2=\"76\" stroke=\"#ECEFE7\" stroke-width=\"6\" stroke-linecap=\"round\" opacity=\"1\"/><line x1=\"100\" y1=\"95\" x2=\"58\" y2=\"60\" stroke=\"#ECEFE7\" stroke-width=\"2\" stroke-linecap=\"round\" opacity=\"0.5\" stroke-dasharray=\"4 4\"/><line x1=\"100\" y1=\"95\" x2=\"142\" y2=\"60\" stroke=\"#ECEFE7\" stroke-width=\"2\" stroke-linecap=\"round\" opacity=\"0.5\" stroke-dasharray=\"4 4\"/><path d=\"M 48 76 Q 100 130 152 76\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"2.5\"/><circle cx=\"100\" cy=\"70\" r=\"13\" fill=\"#ECEFE7\"/><line x1=\"152\" y1=\"76\" x2=\"142\" y2=\"60\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\"/><polyline points=\"147,63 142,60 142,66\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>","caption":"Controlled retraction"}]},{"id":"arm_circles","title":"Arm Circles Behind You","lines":["Take both arms behind you.","Circle them all the way around (circumduction), rounding your spine as they pass low and arching as they pass high.","4\u20135 reps, then switch: one arm up while the other comes down, alternating."],"correction":"\"Keep your elbows straight as you bring the arms behind you and in front.\"","equip":[],"gymOnly":false,"full":60,"short":0,"media":[{"html":"<svg viewBox=\"0 0 200 190\"><line x1=\"15\" y1=\"175\" x2=\"185\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"2\" opacity=\"0.5\"/><line x1=\"100\" y1=\"160\" x2=\"70\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"130\" y2=\"175\" stroke=\"#ECEFE7\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"100\" y2=\"95\" stroke=\"#ECEFE7\" stroke-width=\"13\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"95\" x2=\"58\" y2=\"110\" stroke=\"#5E7669\" stroke-width=\"6\" stroke-linecap=\"round\" opacity=\"1\"/><line x1=\"100\" y1=\"95\" x2=\"142\" y2=\"110\" stroke=\"#ECEFE7\" stroke-width=\"6\" stroke-linecap=\"round\" opacity=\"1\"/><line x1=\"100\" y1=\"95\" x2=\"85\" y2=\"53\" stroke=\"#ECEFE7\" stroke-width=\"2\" stroke-linecap=\"round\" opacity=\"0.5\" stroke-dasharray=\"4 4\"/><line x1=\"100\" y1=\"95\" x2=\"115\" y2=\"53\" stroke=\"#ECEFE7\" stroke-width=\"2\" stroke-linecap=\"round\" opacity=\"0.5\" stroke-dasharray=\"4 4\"/><circle cx=\"100\" cy=\"70\" r=\"13\" fill=\"#ECEFE7\"/><line x1=\"142\" y1=\"110\" x2=\"115\" y2=\"53\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\"/><polyline points=\"120,56 115,53 115,59\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>","caption":"Circle behind you"}]},{"id":"tspine_glide","title":"T-Spine Glide (Test)","lines":["Seated, put your hand on your breastbone.","Glide that part of your chest forward, then back \u2014 a subtle movement.","Breathe toward your back body as you round through the mid- and upper back.","5 reps. This is today's test movement \u2014 notice how far it moves now."],"correction":"\"Make sure it's not happening from the low back \u2014 it's the T-spine.\"","equip":[],"gymOnly":false,"full":60,"short":40,"media":[{"html":"<svg viewBox=\"0 0 200 190\"><line x1=\"15\" y1=\"175\" x2=\"185\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"2\" opacity=\"0.5\"/><line x1=\"100\" y1=\"160\" x2=\"70\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"130\" y2=\"175\" stroke=\"#ECEFE7\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"160\" x2=\"100\" y2=\"95\" stroke=\"#ECEFE7\" stroke-width=\"13\" stroke-linecap=\"round\"/><circle cx=\"100\" cy=\"70\" r=\"13\" fill=\"#ECEFE7\"/><circle cx=\"110\" cy=\"68\" r=\"13\" fill=\"none\" stroke=\"#ECEFE7\" stroke-width=\"1.5\" stroke-dasharray=\"3 3\" opacity=\"0.6\"/><line x1=\"100\" y1=\"54\" x2=\"110\" y2=\"52\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\"/><polyline points=\"105,56 110,52 104,50\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>","caption":"Glide forward / back (test)"}]},{"id":"foam_roller_ext","title":"Foam Roller T-Spine Extension (Treat)","lines":["Lie back with the roller placed behind your shoulder blades, elbows in close.","Let the back of your skull reach toward the floor as you extend over the roller, then come back up to chin-to-chest.","On the way up, tuck the tailbone, push the feet down, and lift the hips before lowering hips then head.","Keep going for several rounds."],"correction":"\"Don't let your throat open\" \u2014 keep the back of the neck long, not thrown back.","equip":["foam roller"],"gymOnly":false,"full":90,"short":90,"media":[{"html":"<svg viewBox=\"0 0 200 190\"><line x1=\"15\" y1=\"175\" x2=\"185\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"2\" opacity=\"0.5\"/><line x1=\"100\" y1=\"165\" x2=\"60\" y2=\"150\" stroke=\"#5E7669\" stroke-width=\"9\" stroke-linecap=\"round\"/><line x1=\"60\" y1=\"150\" x2=\"55\" y2=\"178\" stroke=\"#5E7669\" stroke-width=\"8\" stroke-linecap=\"round\"/><ellipse cx=\"150\" cy=\"168\" rx=\"10\" ry=\"18\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"3\"/><line x1=\"100\" y1=\"165\" x2=\"150\" y2=\"145\" stroke=\"#ECEFE7\" stroke-width=\"2\" stroke-dasharray=\"4 4\" opacity=\"0.5\"/><line x1=\"100\" y1=\"165\" x2=\"150\" y2=\"165\" stroke=\"#ECEFE7\" stroke-width=\"12\" stroke-linecap=\"round\"/><circle cx=\"155\" cy=\"157\" r=\"13\" fill=\"#ECEFE7\"/><line x1=\"150\" y1=\"165\" x2=\"150\" y2=\"145\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\"/><polyline points=\"153,150 150,145 147,150\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>","caption":"Extend over roller"}]},{"id":"hip_bridge_band","title":"Banded Hip Bridge","lines":["Lie on your back, band looped around both feet, knees bent, band held at hip height.","Push the feet down, squeeze the glutes, and lift the hips.","Lower with control. 10 reps."],"correction":"\"Push the feet down, squeeze the glutes.\"","equip":["band"],"gymOnly":false,"full":60,"short":0,"media":[{"html":"<svg viewBox=\"0 0 200 190\"><line x1=\"15\" y1=\"175\" x2=\"185\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"2\" opacity=\"0.5\"/><line x1=\"60\" y1=\"150\" x2=\"100\" y2=\"175\" stroke=\"#ECEFE7\" stroke-width=\"12\" stroke-linecap=\"round\"/><line x1=\"60\" y1=\"150\" x2=\"100\" y2=\"155\" stroke=\"#ECEFE7\" stroke-width=\"2\" stroke-dasharray=\"4 4\" opacity=\"0.5\"/><line x1=\"100\" y1=\"175\" x2=\"140\" y2=\"150\" stroke=\"#5E7669\" stroke-width=\"9\" stroke-linecap=\"round\"/><line x1=\"140\" y1=\"150\" x2=\"150\" y2=\"178\" stroke=\"#5E7669\" stroke-width=\"8\" stroke-linecap=\"round\"/><path d=\"M 150 178 Q 165 160 150 145\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"2.5\"/><circle cx=\"50\" cy=\"150\" r=\"13\" fill=\"#ECEFE7\"/><line x1=\"100\" y1=\"155\" x2=\"100\" y2=\"175\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\"/><polyline points=\"97,170 100,175 103,170\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>","caption":"Hips down / up"}]},{"id":"foam_band_combo","title":"Foam Roller + Band Combo (Re-Test)","lines":["Same roller setup behind the shoulder blades, band around the feet for resistance.","Push the feet down, squeeze the glutes, push up through the band, back of the skull reaching down.","Hold 5 seconds, then open back up. 5 reps.","This is the re-test of the T-spine glide \u2014 check whether it moved more easily this time."],"correction":"\"Don't let your elbows open \u2014 elbows still face up to the ceiling.\"","equip":["foam roller","band"],"gymOnly":false,"full":90,"short":90,"media":[{"html":"<svg viewBox=\"0 0 200 190\"><line x1=\"15\" y1=\"175\" x2=\"185\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"2\" opacity=\"0.5\"/><line x1=\"100\" y1=\"165\" x2=\"60\" y2=\"150\" stroke=\"#5E7669\" stroke-width=\"9\" stroke-linecap=\"round\"/><line x1=\"60\" y1=\"150\" x2=\"55\" y2=\"178\" stroke=\"#5E7669\" stroke-width=\"8\" stroke-linecap=\"round\"/><ellipse cx=\"150\" cy=\"168\" rx=\"10\" ry=\"18\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"3\"/><line x1=\"100\" y1=\"165\" x2=\"150\" y2=\"147\" stroke=\"#ECEFE7\" stroke-width=\"2\" stroke-dasharray=\"4 4\" opacity=\"0.5\"/><line x1=\"100\" y1=\"165\" x2=\"150\" y2=\"161\" stroke=\"#ECEFE7\" stroke-width=\"12\" stroke-linecap=\"round\"/><circle cx=\"155\" cy=\"153\" r=\"13\" fill=\"#ECEFE7\"/><line x1=\"150\" y1=\"161\" x2=\"150\" y2=\"147\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\"/><polyline points=\"153,152 150,147 147,152\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>","caption":"Hold, then open (re-test)"}]},{"id":"gym_standing_band","title":"Standing Banded T-Spine Mobility (Gym)","lines":["Anchor the band at T-spine height (around chest level) on a rack or bar.","Facing away, press into the band and move forward and back.","Turn sideways to one side and push against the band, then the other side, letting it pull you back each time."],"correction":null,"equip":["band","anchor point"],"gymOnly":true,"full":120,"short":120,"media":[{"html":"<svg viewBox=\"0 0 200 190\"><line x1=\"15\" y1=\"175\" x2=\"185\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"2\" opacity=\"0.5\"/><line x1=\"175\" y1=\"70\" x2=\"175\" y2=\"10\" stroke=\"#5E7669\" stroke-width=\"5\"/><line x1=\"175\" y1=\"70\" x2=\"185\" y2=\"70\" stroke=\"#5E7669\" stroke-width=\"5\"/><line x1=\"100\" y1=\"140\" x2=\"88\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"140\" x2=\"112\" y2=\"175\" stroke=\"#ECEFE7\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"140\" x2=\"100\" y2=\"80\" stroke=\"#ECEFE7\" stroke-width=\"13\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"80\" x2=\"152\" y2=\"61\" stroke=\"#ECEFE7\" stroke-width=\"6\" stroke-linecap=\"round\" opacity=\"1\"/><line x1=\"100\" y1=\"80\" x2=\"152\" y2=\"99\" stroke=\"#ECEFE7\" stroke-width=\"2\" stroke-linecap=\"round\" opacity=\"0.5\" stroke-dasharray=\"4 4\"/><path d=\"M 152 61 L 175 70\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"2.5\"/><circle cx=\"100\" cy=\"55\" r=\"13\" fill=\"#ECEFE7\"/><line x1=\"152\" y1=\"61\" x2=\"152\" y2=\"99\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\"/><polyline points=\"149,94 152,99 155,94\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>","caption":"Push / rotate into band"}]},{"id":"catcow","title":"Cat\u2013Cow","lines":["Start in child's pose at the back of your mat.","Round into cat: push the fingers down, pull the hands toward the knees, tailbone lifts.","Arch into cow: pull the hands back, knees forward, shoulders pull back and down.","Round back to child's pose. Several rounds, then add: side-tilt the head to one shoulder while pulling the opposite shoulder back, feel the stretch on the side of the neck; switch sides."],"correction":"\"Pull the shoulders back and down\" as you move through cow.","equip":[],"gymOnly":false,"full":120,"short":190,"media":[{"html":"<svg viewBox=\"0 0 200 190\"><line x1=\"15\" y1=\"175\" x2=\"185\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"2\" opacity=\"0.5\"/><line x1=\"140\" y1=\"165\" x2=\"140\" y2=\"178\" stroke=\"#ECEFE7\" stroke-width=\"7\" stroke-linecap=\"round\"/><line x1=\"65\" y1=\"160\" x2=\"65\" y2=\"178\" stroke=\"#5E7669\" stroke-width=\"7\" stroke-linecap=\"round\"/><path d=\"M 140 165 Q 100 168 65 160\" fill=\"none\" stroke=\"#ECEFE7\" stroke-width=\"2\" stroke-dasharray=\"4 4\" opacity=\"0.5\"/><path d=\"M 140 165 Q 100 132 65 160\" fill=\"none\" stroke=\"#ECEFE7\" stroke-width=\"12\" stroke-linecap=\"round\"/><circle cx=\"158\" cy=\"155\" r=\"13\" fill=\"#ECEFE7\"/><line x1=\"100\" y1=\"132\" x2=\"100\" y2=\"168\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\"/><polyline points=\"97,163 100,168 103,163\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>","caption":"Cat, round"}]},{"id":"cobra","title":"Cobra (+ Twists)","lines":["Lie face down, feet apart, toes pointed, hands by your chest, elbows in.","Press up through the hands to lift your chest \u2014 the head is the last thing to rise.","Lower the same way: chin tucks, head glides back down last.","5 reps. Add the twist: as you lift, roll one shoulder back and look over it; alternate sides."],"correction":"\"The last thing that will come up is going to be the head.\"","equip":[],"gymOnly":false,"full":90,"short":60,"media":[{"html":"<svg viewBox=\"0 0 200 190\"><line x1=\"15\" y1=\"175\" x2=\"185\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"2\" opacity=\"0.5\"/><line x1=\"60\" y1=\"168\" x2=\"150\" y2=\"168\" stroke=\"#ECEFE7\" stroke-width=\"12\" stroke-linecap=\"round\"/><path d=\"M 100 168 Q 130 130 150 120\" fill=\"none\" stroke=\"#ECEFE7\" stroke-width=\"12\" stroke-linecap=\"round\"/><path d=\"M 100 168 Q 130 168 150 168\" fill=\"none\" stroke=\"#ECEFE7\" stroke-width=\"2\" stroke-dasharray=\"4 4\" opacity=\"0.5\"/><circle cx=\"158\" cy=\"112\" r=\"13\" fill=\"#ECEFE7\"/><line x1=\"150\" y1=\"160\" x2=\"150\" y2=\"125\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\"/><polyline points=\"153,130 150,125 147,130\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>","caption":"Lift, head last"}]},{"id":"prone_legs_wipers","title":"Prone Leg Lifts + Hip Wipers","lines":["Forehead down on stacked hands, legs together and straight.","Lift one straight leg, then the other to meet it \u2014 don't bend the knees.","Hold 5, 4, 3, 2, 1, then release.","Finish with knees bent, feet rocking side to side like windshield wipers."],"correction":"\"Don't bend the knee \u2014 straight leg.\"","equip":[],"gymOnly":false,"full":90,"short":0,"media":[{"html":"<svg viewBox=\"0 0 200 190\"><line x1=\"15\" y1=\"175\" x2=\"185\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"2\" opacity=\"0.5\"/><line x1=\"60\" y1=\"165\" x2=\"150\" y2=\"165\" stroke=\"#ECEFE7\" stroke-width=\"12\" stroke-linecap=\"round\"/><line x1=\"60\" y1=\"165\" x2=\"25\" y2=\"165\" stroke=\"#5E7669\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"60\" y1=\"165\" x2=\"25\" y2=\"145\" stroke=\"#ECEFE7\" stroke-width=\"2\" stroke-dasharray=\"4 4\" opacity=\"0.5\"/><circle cx=\"160\" cy=\"158\" r=\"13\" fill=\"#ECEFE7\"/><line x1=\"25\" y1=\"165\" x2=\"25\" y2=\"145\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\"/><polyline points=\"28,150 25,145 22,150\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>","caption":"Legs lifted"}]},{"id":"bolster","title":"Bolster Back Extension","lines":["Lie face down with the bolster under your pelvis, toes pointed back, band around your feet for resistance.","Squeeze the glutes and tilt your pelvis back before you lift \u2014 this protects the low back and shifts the work to your upper back and glutes.","Push through the band, lift your chest, then lower back down.","About 5 reps."],"correction":"\"Use your upper back and your glutes \u2014 not your low back \u2014 to help you lift.\"","equip":["bolster","band"],"gymOnly":false,"full":120,"short":0,"media":[{"html":"<svg viewBox=\"0 0 200 190\"><line x1=\"15\" y1=\"175\" x2=\"185\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"2\" opacity=\"0.5\"/><ellipse cx=\"100\" cy=\"172\" rx=\"26\" ry=\"10\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"3\"/><line x1=\"100\" y1=\"168\" x2=\"55\" y2=\"170\" stroke=\"#5E7669\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"168\" x2=\"155\" y2=\"168\" stroke=\"#ECEFE7\" stroke-width=\"12\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"168\" x2=\"155\" y2=\"146\" stroke=\"#ECEFE7\" stroke-width=\"2\" stroke-dasharray=\"4 4\" opacity=\"0.5\"/><path d=\"M 55 170 Q 40 150 55 130\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"2.5\"/><circle cx=\"162\" cy=\"160\" r=\"13\" fill=\"#ECEFE7\"/><line x1=\"155\" y1=\"168\" x2=\"155\" y2=\"146\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\"/><polyline points=\"158,151 155,146 152,151\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>","caption":"Lift, glutes squeezed"}]},{"id":"supine_closer","title":"Supine Knee Hug + Elbow Glide","lines":["Lie on your back, hug your knees to your chest, then open your arms out to the sides.","Rock your knees to the right, then left, a few times.","Keep the knees to one side, bend the opposite elbow, and glide it up and down along the floor near your torso.","5 reps, then switch sides."],"correction":"\"Keep the elbow down \u2014 don't let it rotate and lift as you raise the arm. Keep the control.\"","equip":[],"gymOnly":false,"full":90,"short":60,"media":[{"html":"<svg viewBox=\"0 0 200 190\"><line x1=\"15\" y1=\"175\" x2=\"185\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"2\" opacity=\"0.5\"/><line x1=\"100\" y1=\"170\" x2=\"80\" y2=\"140\" stroke=\"#5E7669\" stroke-width=\"9\" stroke-linecap=\"round\"/><line x1=\"80\" y1=\"140\" x2=\"100\" y2=\"120\" stroke=\"#5E7669\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"170\" x2=\"120\" y2=\"140\" stroke=\"#ECEFE7\" stroke-width=\"9\" stroke-linecap=\"round\"/><line x1=\"120\" y1=\"140\" x2=\"100\" y2=\"120\" stroke=\"#ECEFE7\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"170\" x2=\"150\" y2=\"165\" stroke=\"#ECEFE7\" stroke-width=\"12\" stroke-linecap=\"round\"/><line x1=\"150\" y1=\"165\" x2=\"115\" y2=\"145\" stroke=\"#ECEFE7\" stroke-width=\"6\" stroke-linecap=\"round\" opacity=\"1\"/><line x1=\"150\" y1=\"165\" x2=\"143\" y2=\"126\" stroke=\"#ECEFE7\" stroke-width=\"2\" stroke-linecap=\"round\" opacity=\"0.5\" stroke-dasharray=\"4 4\"/><circle cx=\"160\" cy=\"163\" r=\"13\" fill=\"#ECEFE7\"/><line x1=\"115\" y1=\"145\" x2=\"143\" y2=\"126\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\"/><polyline points=\"141,131 143,126 137,126\" fill=\"none\" stroke=\"#DDBE7E\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>","caption":"Hug knees, rock"}]},{"id":"shavasana","title":"Shavasana","lines":["Lie flat, let your jaw soften and drop.","Notice the back of your neck relaxing as the head settles back.","Rest here for a few breaths, then slowly deepen the breath, reach your arms up and over, and roll to your side to come up."],"correction":null,"equip":[],"gymOnly":false,"full":135,"short":60,"media":[{"html":"<svg viewBox=\"0 0 200 190\"><line x1=\"15\" y1=\"175\" x2=\"185\" y2=\"175\" stroke=\"#5E7669\" stroke-width=\"2\" opacity=\"0.5\"/><line x1=\"100\" y1=\"170\" x2=\"60\" y2=\"170\" stroke=\"#5E7669\" stroke-width=\"9\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"170\" x2=\"60\" y2=\"180\" stroke=\"#ECEFE7\" stroke-width=\"8\" stroke-linecap=\"round\"/><line x1=\"100\" y1=\"170\" x2=\"150\" y2=\"165\" stroke=\"#ECEFE7\" stroke-width=\"12\" stroke-linecap=\"round\"/><line x1=\"150\" y1=\"165\" x2=\"115\" y2=\"145\" stroke=\"#ECEFE7\" stroke-width=\"6\" stroke-linecap=\"round\" opacity=\"1\"/><line x1=\"150\" y1=\"165\" x2=\"143\" y2=\"126\" stroke=\"#ECEFE7\" stroke-width=\"2\" stroke-linecap=\"round\" opacity=\"0.5\" stroke-dasharray=\"4 4\"/><circle cx=\"160\" cy=\"163\" r=\"13\" fill=\"#ECEFE7\"/></svg>","caption":"Settle and breathe"}]}];</script>
+<script>(function(){
+"use strict";
+var STEP_GAP = 3600; // ms between instruction lines arriving
+var state = {
+mode: "full",       // 'full' | 'short'
+gym: false,
+running: false,
+paused: false,
+blockIndex: 0,
+blockStartPerf: 0,
+pausedAt: 0,
+pauseAccum: 0,
+rafId: null,
+wakeLock: null,
+stepTimers: [],
+encouragementsFired: []
+};
+function activeBlocks(){
+return BLOCKS.filter(function(b){
+if (b.gymOnly && !state.gym) return false;
+var dur = state.mode === "full" ? b.full : b.short;
+return dur > 0;
+});
+}
+function blockDuration(b){ return state.mode === "full" ? b.full : b.short; }
+function totalDuration(){
+return activeBlocks().reduce(function(s,b){ return s + blockDuration(b); }, 0);
+}
+function fmt(sec){
+sec = Math.max(0, Math.round(sec));
+var m = Math.floor(sec/60), s = sec%60;
+return m + ":" + (s<10?"0":"") + s;
+}
+var actx = null;
+function ac(){ if(!actx){ try{ actx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } return actx; }
+function tone(freq, start, dur, gain){
+var c = ac(); if(!c) return;
+var o = c.createOscillator(), g = c.createGain();
+o.frequency.value = freq; o.type = "sine";
+g.gain.value = 0;
+o.connect(g); g.connect(c.destination);
+var t0 = c.currentTime + start;
+g.gain.setValueAtTime(0, t0);
+g.gain.linearRampToValueAtTime(gain||0.15, t0+0.02);
+g.gain.linearRampToValueAtTime(0, t0+dur);
+o.start(t0); o.stop(t0+dur+0.05);
+}
+function chimeSingle(){ tone(660,0,0.5); }
+function chimeDouble(){ tone(660,0,0.35); tone(660,0.28,0.35); }
+function ticks321(){ tone(880,0,0.08,0.12); tone(880,0.5,0.08,0.12); tone(880,1.0,0.08,0.12); }
+function chimeEnd(){ tone(523,0,0.3); tone(659,0.18,0.3); tone(784,0.36,0.5); }
+var voiceCache = null;
+function pickVoice(){
+if(voiceCache) return voiceCache;
+var vs = (window.speechSynthesis && speechSynthesis.getVoices()) || [];
+voiceCache = vs.find(function(v){return /en-US/.test(v.lang) && /Natural|Samantha|Google/.test(v.name);}) || vs.find(function(v){return /en/.test(v.lang);}) || null;
+return voiceCache;
+}
+var speechQueue = [];
+var speaking = false;
+function speak(text){
+if(!window.speechSynthesis) return;
+speechQueue.push(text);
+pumpSpeech();
+}
+function pumpSpeech(){
+if (speaking || !speechQueue.length || !window.speechSynthesis) return;
+speaking = true;
+var u = new SpeechSynthesisUtterance(speechQueue.shift());
+var v = pickVoice(); if (v) u.voice = v;
+u.rate = 1.0;
+u.onend = u.onerror = function(){ speaking = false; pumpSpeech(); };
+speechSynthesis.speak(u);
+}
+async function requestWakeLock(){
+try{
+if ('wakeLock' in navigator){
+state.wakeLock = await navigator.wakeLock.request('screen');
+}
+}catch(e){  }
+}
+function releaseWakeLock(){
+try{ if(state.wakeLock){ state.wakeLock.release(); state.wakeLock = null; } }catch(e){}
+}
+function safeGet(key){ try{ return window.storage ? window.storage.getItem(key) : null; }catch(e){ return null; } }
+function safeSet(key,val){ try{ if(window.storage) window.storage.setItem(key,val); }catch(e){} }
+var el = {};
+function q(id){ return document.getElementById(id); }
+function cacheEls(){
+el.begin = q('beginBtn');
+el.pause = q('pauseBtn');
+el.modeFull = q('modeFull');
+el.modeShort = q('modeShort');
+el.gymToggle = q('gymToggle');
+el.gymNote = q('gymNote');
+el.blockTitle = q('blockTitle');
+el.blockTimer = q('blockTimer');
+el.totalTimer = q('totalTimer');
+el.totalTimerRun = q('totalTimerRun');
+el.stepsList = q('stepsList');
+el.correction = q('correctionLine');
+el.mediaWrap = q('mediaWrap');
+el.equipTags = q('equipTags');
+el.progressFill = q('progressFill');
+el.planList = q('planList');
+el.runScreen = q('runScreen');
+el.homeScreen = q('homeScreen');
+el.encourage = q('encourageBanner');
+el.gymBadge = q('gymBadge');
+}
+function renderHome(){
+el.totalTimer.textContent = fmt(totalDuration());
+var blocks = activeBlocks();
+el.planList.innerHTML = blocks.map(function(b){
+var tags = b.equip.length ? ' <span class="kit">'+b.equip.join(' Â· ')+'</span>' : '';
+var gymTag = b.gymOnly ? ' <span class="kit gym">gym</span>' : '';
+return '<li><span class="dur">'+fmt(blockDuration(b))+'</span><span class="name">'+b.title+'</span>'+tags+gymTag+'</li>';
+}).join('');
+}
+function setMode(mode){
+state.mode = mode;
+el.modeFull.classList.toggle('active', mode==='full');
+el.modeShort.classList.toggle('active', mode==='short');
+renderHome();
+}
+function setGym(on){
+state.gym = on;
+el.gymToggle.classList.toggle('active', on);
+el.gymNote.style.display = on ? 'block' : 'none';
+renderHome();
+}
+function begin(){
+state.running = true;
+state.paused = false;
+state.blockIndex = 0;
+state.pauseAccum = 0;
+el.homeScreen.style.display = 'none';
+el.runScreen.style.display = 'block';
+requestWakeLock();
+startBlock();
+loop();
+}
+function startBlock(){
+var blocks = activeBlocks();
+var b = blocks[state.blockIndex];
+if (!b){ finishSession(); return; }
+state.blockStartPerf = performance.now();
+clearStepTimers();
+el.blockTitle.textContent = b.title;
+el.correction.textContent = b.correction || '';
+el.correction.style.display = b.correction ? 'block' : 'none';
+el.equipTags.textContent = b.equip.length ? b.equip.join(' + ') : '';
+el.gymBadge.style.display = b.gymOnly ? 'inline' : 'none';
+renderMedia(b);
+scheduleSteps(b);
+chimeSingle();
+speak(b.title);
+state.encouragementsFired = [];
+}
+function clearStepTimers(){
+state.stepTimers.forEach(function(t){ clearTimeout(t); });
+state.stepTimers = [];
+el.stepsList.innerHTML = '';
+}
+function scheduleSteps(b){
+var lines = b.lines;
+var stepEls = lines.map(function(line, i){
+var li = document.createElement('li');
+li.textContent = line;
+li.className = 'step pending';
+el.stepsList.appendChild(li);
+return li;
+});
+var dur = blockDuration(b);
+var mid = dur * 500; // ms to true halfway point
+lines.forEach(function(line, i){
+var t = setTimeout(function(){
+stepEls.forEach(function(s,j){ s.classList.toggle('current', j===i); s.classList.toggle('dim', j!==i); });
+speak(line);
+}, i * STEP_GAP);
+state.stepTimers.push(t);
+});
+// mid-block cue: double chime at the TRUE halfway point of the block
+var midTimer = setTimeout(function(){ chimeDouble(); }, mid);
+state.stepTimers.push(midTimer);
+}
+function renderMedia(b){
+el.mediaWrap.innerHTML = '';
+(b.media || []).forEach(function(item){
+var fig = document.createElement('figure');
+fig.innerHTML = item.html;
+var cap = document.createElement('figcaption');
+cap.textContent = item.caption;
+fig.appendChild(cap);
+fig.onclick = function(){ fig.classList.toggle('enlarged'); };
+el.mediaWrap.appendChild(fig);
+});
+}
+function loop(){
+if (!state.running) return;
+try{
+var blocks = activeBlocks();
+var b = blocks[state.blockIndex];
+if (b){
+var dur = blockDuration(b);
+var elapsedMs = performance.now() - state.blockStartPerf;
+var remaining = dur - elapsedMs/1000;
+el.blockTimer.textContent = fmt(remaining);
+var elapsedTotal = blocks.slice(0,state.blockIndex).reduce(function(s,x){return s+blockDuration(x);},0) + Math.min(dur, elapsedMs/1000);
+var remainTotal = fmt(totalDuration() - elapsedTotal);
+el.totalTimer.textContent = remainTotal;
+if (el.totalTimerRun) el.totalTimerRun.textContent = remainTotal;
+el.progressFill.style.width = Math.min(100, 100*elapsedTotal/totalDuration()) + '%';
+if (remaining <= 3.05 && remaining > 2.95) ticks321();
+maybeEncourage(elapsedTotal);
+if (elapsedMs/1000 >= dur){
+state.blockIndex += 1;
+if (state.blockIndex >= blocks.length){ finishSession(); return; }
+startBlock();
+}
+} else {
+finishSession(); return;
+}
+} finally {
+state.rafId = requestAnimationFrame(loop);
+}
+}
+var ENCOURAGE_POINTS = [0.3, 0.6, 0.85];
+var ENCOURAGE_LINES = [
+"Good — that's the hardest part of starting done.",
+"Your T-spine is opening up more than last time.",
+"Almost through — finish it out."
+];
+function maybeEncourage(elapsedTotal){
+var frac = elapsedTotal / totalDuration();
+ENCOURAGE_POINTS.forEach(function(p, i){
+if (frac >= p && state.encouragementsFired.indexOf(i) === -1){
+state.encouragementsFired.push(i);
+showEncourage(ENCOURAGE_LINES[i]);
+}
+});
+}
+function showEncourage(text){
+el.encourage.textContent = text;
+el.encourage.classList.add('show');
+setTimeout(function(){ el.encourage.classList.remove('show'); }, 4000);
+}
+function finishSession(){
+state.running = false;
+if (state.rafId) cancelAnimationFrame(state.rafId);
+clearStepTimers();
+chimeEnd();
+el.blockTitle.textContent = "Session complete";
+el.blockTimer.textContent = "0:00";
+el.correction.style.display = 'none';
+releaseWakeLock();
+}
+function togglePause(){
+state.paused = !state.paused;
+el.pause.textContent = state.paused ? 'Resume' : 'Pause';
+if (state.paused){
+if (state.rafId) cancelAnimationFrame(state.rafId);
+clearStepTimers();
+} else {
+// resume: shift blockStartPerf forward by nothing extra (simplify: restart current block's remaining time)
+loop();
+}
+}
+function init(){
+cacheEls();
+renderHome();
+el.modeFull.onclick = function(){ setMode('full'); };
+el.modeShort.onclick = function(){ setMode('short'); };
+el.gymToggle.onclick = function(){ setGym(!state.gym); };
+el.begin.onclick = begin;
+if (el.pause) el.pause.onclick = togglePause;
+if (window.speechSynthesis) speechSynthesis.onvoiceschanged = function(){ voiceCache = null; };
+}
+if (document.readyState === 'loading'){
+document.addEventListener('DOMContentLoaded', init);
+} else {
+init();
+}
+window.__mobilityApp = { begin: begin, setMode: setMode, setGym: setGym, state: state, activeBlocks: activeBlocks, totalDuration: totalDuration };
+})();</script>
+</body>
+</html>
