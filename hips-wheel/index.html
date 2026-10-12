@@ -78,8 +78,33 @@ var actx = null;
 var ac = function(){
 if (!sound) return null;
 try { if (!actx) actx = new (window.AudioContext||window.webkitAudioContext)();
-if (actx.state === "suspended") actx.resume();
+if (actx.state !== "running" && actx.resume) actx.resume();
 return actx; } catch(e){ return null; }
+};
+var keepAlive = null;
+var silentWav = function(){
+var n = 4000, b = new Uint8Array(44 + n), v = new DataView(b.buffer);
+var w = function(o, s){ for (var i = 0; i < s.length; i++) b[o + i] = s.charCodeAt(i); };
+w(0,"RIFF"); v.setUint32(4, 36 + n, true); w(8,"WAVEfmt "); v.setUint32(16,16,true); v.setUint16(20,1,true);
+v.setUint16(22,1,true); v.setUint32(24,8000,true); v.setUint32(28,8000,true); v.setUint16(32,1,true); v.setUint16(34,8,true);
+w(36,"data"); v.setUint32(40, n, true); for (var i = 0; i < n; i++) b[44 + i] = 128;
+var s = ""; for (var j = 0; j < b.length; j++) s += String.fromCharCode(b[j]);
+return "data:audio/wav;base64," + btoa(s);
+};
+var keep = function(){
+try { if (!keepAlive) { keepAlive = new Audio(silentWav()); keepAlive.loop = true; keepAlive.setAttribute("playsinline", ""); }
+var p = keepAlive.play(); if (p && p.catch) p.catch(function(){}); } catch(e){}
+};
+var quiet = function(){ try { if (keepAlive) keepAlive.pause(); } catch(e){} };
+var unlockAudio = function(){
+if (!sound) return;
+try { if (navigator.audioSession) navigator.audioSession.type = "playback"; } catch(e){}
+keep();
+var a = ac();
+if (a) { try { var src = a.createBufferSource(); src.buffer = a.createBuffer(1, 1, 22050);
+src.connect(a.destination); src.start(0); } catch(e){} }
+try { if (window.speechSynthesis) { speechSynthesis.cancel(); vq = []; vbusy = false;
+var u = new SpeechSynthesisUtterance(" "); u.volume = 0; speechSynthesis.speak(u); } } catch(e){}
 };
 var tone = function(f, when, dur, vol){
 var a = ac(); if (!a) return;
@@ -118,7 +143,9 @@ var u = new SpeechSynthesisUtterance(txt);
 if (voice) u.voice = voice;
 u.rate = 0.94; u.pitch = 1.0;
 vbusy = true;
-u.onend = u.onerror = function(){ vbusy = false; vnext(); };
+var wd = setTimeout(function(){ if (vbusy) { vbusy = false; vnext(); } }, 1500 + txt.length * 95);
+u.onend = u.onerror = function(){ clearTimeout(wd); vbusy = false; vnext(); };
+try { if (speechSynthesis.paused) speechSynthesis.resume(); } catch(e){}
 speechSynthesis.speak(u);
 } catch(e){ vbusy = false; }
 };
@@ -242,7 +269,7 @@ try { if (running && !paused) body(); } catch(err){ /* never stop the clock */ }
 if (running) raf = requestAnimationFrame(loop);
 };
 var finish = function(){
-running = false; paused = true; unlock(); fanfare();
+running = false; paused = true; unlock(); fanfare(); setTimeout(quiet, 2500);
 $("run").className = ""; $("done").className = "on";
 var tot = B.reduce(function(a, b){ return a + b.d; }, 0);
 $("doneP").textContent = B.length + " blocks, " + fmt(tot) + ".";
@@ -255,12 +282,12 @@ $("home").style.display = "none";
 $("done").className = "";
 $("run").className = "on";
 running = true; paused = false;
-loadVoice(); lock();
+unlockAudio(); loadVoice(); lock();
 show(0);
 if (raf) cancelAnimationFrame(raf);
 loop();
 };
-var goHome = function(){
+var goHome = function(){ quiet();
 running = false; paused = true; unlock(); hush();
 if (raf) { cancelAnimationFrame(raf); raf = null; }
 $("run").className = ""; $("done").className = "";
@@ -288,6 +315,7 @@ if (idx > 0){ paused = false; $("pause").textContent = "Pause"; show(idx - 1); }
 $("sound").onclick = function(){
 sound = !sound;
 $("sound").textContent = sound ? "Sound on" : "Sound off";
+if (sound) unlockAudio(); else quiet();
 if (!sound) hush();
 };
 $("art").onclick = function(){
@@ -295,7 +323,7 @@ $("lbIn").innerHTML = $("art").innerHTML;
 $("lb").className = "on";
 };
 $("lb").onclick = function(){ $("lb").className = ""; };
-document.addEventListener("visibilitychange", function(){ if (!document.hidden) lock(); });
+document.addEventListener("visibilitychange", function(){ if (!document.hidden) { lock(); if (running) { ac(); keep(); } } });
 try { if (window.speechSynthesis) speechSynthesis.onvoiceschanged = loadVoice; } catch(e){}
 setMode("full");
 })();</script></body></html>
